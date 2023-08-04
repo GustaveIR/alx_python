@@ -1,3 +1,4 @@
 # File: 0-print.py
 
-print("Programming is like building a multilingual puzzle")
+words_to_print = ["Programming", "is", "like", "building", "a", "multilingual", "puzzle"]
+print(*words_to_print)
