@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import random
-import sys
 
 try:
     number = random.randint(-10, 10)
@@ -18,4 +17,4 @@ try:
         raise TypeError(f"Error: The generated number '{number}' is not an integer.")
 
 except TypeError as e:
-    print(e, file=sys.stderr)
+    print(e)
