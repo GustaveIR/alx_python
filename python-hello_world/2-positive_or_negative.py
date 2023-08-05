@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import random
+import sys
 
 try:
     number = random.randint(-10, 10)
