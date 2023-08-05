@@ -14,7 +14,7 @@ try:
         else:
             print(f"{number} is negative")
     else:
-        print("Error: The generated number is not an integer.")
+        raise TypeError(f"Error: The generated number '{number}' is not an integer.")
 
-except TypeError:
-    print("Error: The generated number is not an integer.")
+except TypeError as e:
+    print(e, file=sys.stderr)
