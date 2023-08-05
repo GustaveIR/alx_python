@@ -1,4 +1,6 @@
-# 1-edges.py
+#!/usr/bin/python3
+
+word = "Holberton"
 
 # Extract the first 3 letters of the variable "word"
 word_first_3 = word[:3]
@@ -9,7 +11,6 @@ word_last_2 = word[-2:]
 # Extract the middle word without the first and last letters
 middle_word = word[1:-1]
 
-# Print the results
 print("First 3 letters:", word_first_3)
 print("Last 2 letters:", word_last_2)
 print("Middle word:", middle_word)
