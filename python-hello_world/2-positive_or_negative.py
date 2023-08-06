@@ -17,4 +17,4 @@ try:
         raise TypeError(f"Error: The generated number '{number}' is not an integer.")
 
 except TypeError as e:
-    print(e.args[0])  # Print the error message without the extra characters
+    print(e)  # Print the error message without any extra characters
