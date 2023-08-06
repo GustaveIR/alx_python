@@ -1,13 +1,8 @@
+from decimal import Decimal, getcontext
+
 def pow(a, b):
-    if b == 0:
-        return 1
-
-    result = 1
-    if b > 0:
-        for _ in range(b):
-            result *= a
-    else:
-        for _ in range(-b):
-            result /= a
-
-    return result
+    getcontext().prec = 21
+    a_decimal = Decimal(a)
+    b_decimal = Decimal(b)
+    result = a_decimal ** b_decimal
+    return float(result)
