@@ -8,6 +8,6 @@ def pow(a, b):
             result *= a
     else:
         for _ in range(-b):
-            result //= a  # Integer division for negative exponent
+            result /= a
 
     return result
