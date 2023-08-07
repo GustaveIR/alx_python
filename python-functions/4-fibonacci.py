@@ -4,7 +4,12 @@ def fibonacci_sequence(n):
     if n <= 0:
         return []
 
-    fib_seq = [0, 1]
+    fib_seq = [0]
+
+    if n == 1:
+        return fib_seq
+
+    fib_seq.append(1)
 
     while len(fib_seq) < n:
         next_number = fib_seq[-1] + fib_seq[-2]
