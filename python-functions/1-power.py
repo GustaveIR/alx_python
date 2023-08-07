@@ -1,4 +1,6 @@
-def pow(a, b):
+# 1-power.py
+
+def power(a, b):
     if b == 0:
         return 1
 
@@ -10,4 +12,7 @@ def pow(a, b):
         for _ in range(-b):
             result /= a
 
-    return result
+    # Format the result with one less digit after the decimal point
+    formatted_result = "{:.19e}".format(result)
+
+    return float(formatted_result)
