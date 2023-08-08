@@ -1,14 +1,8 @@
-# 0-add.py
-
-# Define the variables a and b
-a = 1
-b = 2
-
-# Import the add function from add_0.py
+#!/usr/bin/python3
 from add_0 import add
 
-# Calculate the result of the addition using the add function
-result = add(a, b)
-
-# Print the result in the desired format
-print("{} + {} = {}".format(a, b, result))
+if __name__ == "__main__":
+    a = 1
+    b = 2
+    result = add(a, b)
+    print(f"{a} + {b} = {result}")
