@@ -15,3 +15,9 @@ class Square:
             size (int): The size of the square.
         """
         self.__size = size
+
+# Additional test code
+if __name__ == "__main__":
+    mysquare = Square(3)
+    print(type(mysquare))
+    print(mysquare.__dict__)
