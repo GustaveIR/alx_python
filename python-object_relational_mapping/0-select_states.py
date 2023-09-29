@@ -4,8 +4,7 @@ import MySQLdb
 import sys
 
 if __name__ == "__main__":
-   db = MySQLdb.connect(host="localhost",username = sys.argv[1],  password = sys.argv[2], database = sys.argv[3],
-                          port=3306)
+    db = MySQLdb.connect(host="localhost", username=sys.argv[1], password=sys.argv[2], database=sys.argv[3], port=3306)
     c = db.cursor()
 
     c.execute("SELECT * FROM states")
@@ -16,7 +15,7 @@ if __name__ == "__main__":
 
     c.close()
     db.close()
- 
+
    
    
     
