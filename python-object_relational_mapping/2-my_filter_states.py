@@ -5,7 +5,7 @@ of hbtn_0e_0_usa where name matches the argument.
 """
 
 import MySQLdb
-from sys import argv
+import sys
 
 if __name__ == '__main__':
     # Connect to the MySQL server
@@ -18,25 +18,23 @@ if __name__ == '__main__':
     )
 
     # Create a cursor object to interact with the database
-    c = db.cursor()
+    cur = db.cursor()
 
+    # Get the state name from the command line argument
+    state_name = sys.argv[4]
 
     # Execute the query to retrieve states matching the provided name
-    c.execute(
-        "SELECT * FROM states WHERE name LIKE BINARY '{}' BY id;"
-        .format(sys.argv[4]0)
-        
+    cur.execute(
+        "SELECT * FROM states WHERE name='{}' ORDER BY id;".format(state_name)
     )
 
     # Fetch all the rows that match the query
-    rows = c.fetchall()
+    rows = cur.fetchall()
 
     # Print the results
     for row in rows:
         print(row)
 
     # Close the cursor and database connection
-    c.close()
+    cur.close()
     db.close()
-
-   
