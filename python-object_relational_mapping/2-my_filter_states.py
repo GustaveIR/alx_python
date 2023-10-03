@@ -20,12 +20,10 @@ if __name__ == '__main__':
     # Create a cursor object to interact with the database
     cur = db.cursor()
 
- 
-    
     # Execute the query to retrieve states matching the provided name
     cur.execute(
         "SELECT * FROM states WHERE name LIKE BINARY '{}'"
-         .format(sys.argv[4])
+        .format(sys.argv[4])
     )
 
     # Fetch all the rows that match the query
