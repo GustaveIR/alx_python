@@ -1,8 +1,3 @@
-#!/usr/bin/python3
-"""
-Script that lists all cities from a specific state in the database hbtn_0e_4_usa
-"""
-
 import MySQLdb
 import sys
 
@@ -40,6 +35,8 @@ if __name__ == '__main__':
         else:
             print("No cities found for the specified state.")
 
+    except MySQLdb.Error as e:
+        print(f"MySQL Error: {e}")
     except Exception as e:
         print(f"Error: {e}")
     finally:
