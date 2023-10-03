@@ -20,13 +20,12 @@ if __name__ == '__main__':
     # Create a cursor object to interact with the database
     cur = db.cursor()
 
-    # Get the state name from the command line argument
-    state_name = sys.argv[4]
-
-    # Execute the query to retrieve states matching the provided name (case insensitive)
+ 
+    
+    # Execute the query to retrieve states matching the provided name
     cur.execute(
-        "SELECT * FROM states WHERE name COLLATE utf8mb4_general_ci = %s ORDER BY id;",
-        (state_name,)
+        "SELECT * FROM states WHERE name LIKE BINARY '{}'"
+         .format(sys.argv[4])
     )
 
     # Fetch all the rows that match the query
