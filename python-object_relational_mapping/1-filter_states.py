@@ -20,8 +20,8 @@ if __name__ == '__main__':
     # Create a cursor object to interact with the database
     cur = db.cursor()
 
-    # Execute the query to retrieve states starting with 'N'
-    cur.execute("SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id;")
+    # Execute the query to retrieve states starting with 'N' (case-sensitive)
+    cur.execute("SELECT * FROM states WHERE name LIKE 'N%' COLLATE utf8mb4_bin ORDER BY id;")
 
     # Fetch all the rows that match the query
     rows = cur.fetchall()
