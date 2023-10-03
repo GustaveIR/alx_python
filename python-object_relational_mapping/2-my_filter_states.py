@@ -23,9 +23,10 @@ if __name__ == '__main__':
     # Get the state name from the command line argument
     state_name = sys.argv[4]
 
-    # Execute the query to retrieve states matching the provided name
+    # Execute the query to retrieve states matching the provided name (case insensitive)
     cur.execute(
-        "SELECT * FROM states WHERE name='{}' ORDER BY id;".format(state_name)
+        "SELECT * FROM states WHERE name COLLATE utf8mb4_general_ci = %s ORDER BY id;",
+        (state_name,)
     )
 
     # Fetch all the rows that match the query
