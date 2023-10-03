@@ -25,8 +25,7 @@ if __name__ == '__main__':
 
     # Execute the query to retrieve states matching the provided name
     cur.execute(
-        "SELECT * FROM states WHERE name=%s ORDER BY id;",
-        (state_name,)
+        "SELECT * FROM states WHERE name='{}' ORDER BY id;".format(state_name)
     )
 
     # Fetch all the rows that match the query
