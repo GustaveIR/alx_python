@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Script that lists all cities from the database hbtn_0e_4_usa
+Script that takes an argument and displays all values in the states table
+of hbtn_0e_0_usa where name matches the argument.
 """
 
 import MySQLdb
@@ -19,9 +20,10 @@ if __name__ == '__main__':
     # Create a cursor object to interact with the database
     cur = db.cursor()
 
-    # Execute the query to retrieve cities with their corresponding states
+    # Execute the query to retrieve states matching the provided name
     cur.execute(
-        "SELECT cities.id, cities.name, states.name FROM cities JOIN states ON cities.state_id = states.id ORDER BY cities.id"
+        "SELECT * FROM states WHERE name LIKE BINARY %s",
+        (sys.argv[4],)
     )
 
     # Fetch all the rows that match the query
