@@ -1,8 +1,12 @@
-#!usr/bin/python3
+#!/usr/bin/env python3
 import MySQLdb
 import sys
 
 if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        print("Usage: python3 script.py <root> <Strongerthanbefore1@> <hbtn_0e_4_usa> <states>")
+        sys.exit(1)
+
     try:
         # Connect to the MySQL server
         db = MySQLdb.connect(
