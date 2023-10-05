@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 import MySQLdb
 import sys
 
@@ -32,7 +32,7 @@ if __name__ == '__main__':
             city_names = ', '.join(row[0] for row in rows)
             print(city_names)
         else:
-            print(f"No cities found for the specified state: {sys.argv[4]}.")
+            print(f"No cities found for the specified state: {sys.argv[4]}")
 
     except MySQLdb.Error as e:
         print(f"MySQL Error: {e}")
