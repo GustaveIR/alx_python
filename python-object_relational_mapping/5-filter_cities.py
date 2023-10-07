@@ -35,9 +35,9 @@ if __name__ == '__main__':
             print(city_names)
 
     except MySQLdb.Error as e:
-        print(f"MySQL Error: {e}")
+        print("MySQL Error: {}".format(e))
     except Exception as e:
-        print(f"Error: {e}")
+        print("Error: {}".format(e))
     finally:
         # Close the cursor and database connection
         cur.close()
