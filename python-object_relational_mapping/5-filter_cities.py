@@ -30,7 +30,18 @@ if __name__ == '__main__':
         # Fetch all the rows that match the query
         rows = cur.fetchall()
 
+        # Print the results
+        if rows:
+            city_names = ', '.join(row[0] for row in rows)
+            print(city_names)
+        else:
+            print(f"No cities found for the state: {state_name}")
 
+    except MySQLdb.Error as e:
+        print("MySQL Error: {}".format(e))
+    except Exception as e:
+        print("Error: {}".format(e))
+    finally:
         # Close the cursor and database connection
         cur.close()
         db.close()
