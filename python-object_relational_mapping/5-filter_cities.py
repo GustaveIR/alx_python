@@ -17,13 +17,14 @@ if __name__ == '__main__':
         cur = db.cursor()
 
         # Execute the query to retrieve cities of the specified state
+        state_name = sys.argv[4]
         cur.execute(
             "SELECT cities.name "
             "FROM cities "
             "JOIN states ON cities.state_id = states.id "
             "WHERE states.name = %s "
             "ORDER BY cities.id",
-            (sys.argv[4],)
+            (state_name,)
         )
 
         # Fetch all the rows that match the query
@@ -33,6 +34,8 @@ if __name__ == '__main__':
         if rows:
             city_names = ', '.join(row[0] for row in rows)
             print(city_names)
+        else:
+            print(f"No cities found for the state: {state_name}")
 
     except MySQLdb.Error as e:
         print("MySQL Error: {}".format(e))
