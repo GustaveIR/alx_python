@@ -6,7 +6,7 @@ if __name__ == '__main__':
     try:
         # Connect to the MySQL server
         db = MySQLdb.connect(
-            host='localhost',
+            host="localhost",
             user=sys.argv[1],
             passwd=sys.argv[2],
             db=sys.argv[3],
@@ -14,34 +14,23 @@ if __name__ == '__main__':
         )
 
         # Create a cursor object to interact with the database
-        cur = db.cursor()
+        c = db.cursor()
 
         # Execute the query to retrieve cities of the specified state
         state_name = sys.argv[4]
-        cur.execute(
+        c.execute(
             "SELECT cities.name "
             "FROM cities "
             "JOIN states ON cities.state_id = states.id "
             "WHERE states.name = %s "
             "ORDER BY cities.id",
-            (state_name,)
+           (sys.argv[4])
         )
 
         # Fetch all the rows that match the query
-        rows = cur.fetchall()
+        rows = c.fetchall()
+        tmp = list (row[0] for row in rows)
 
-        # Print the results
-        if rows:
-            city_names = ', '.join(row[0] for row in rows)
-            print(city_names)
-        else:
-            print("No cities found for the state: {}".format(state_name))
-
-    except MySQLdb.Error as e:
-        print("MySQL Error: {}".format(e))
-    except Exception as e:
-        print("Error: {}".format(e))
-    finally:
-        # Close the cursor and database connection
-        cur.close()
-        db.close()
+        print (*tmp, sep=" , ")
+        c. close()
+        db. close()
