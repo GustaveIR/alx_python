@@ -1,24 +1,21 @@
 #!/usr/bin/python3
-import MySQLdb
+import mysql.connector
 import sys
 
 if __name__ == '__main__':
     try:
-    
-        db = MySQLdb.connect(
+        db = mysql.connector.connect(
             host='localhost',
             user=sys.argv[1],
-            passwd=sys.argv[2],
-            db=sys.argv[3],
+            password=sys.argv[2],
+            database=sys.argv[3],
             port=3306
         )
 
-        
-        cur = db.cursor()
+        cursor = db.cursor()
 
-        
         state_name = sys.argv[4]
-        cur.execute(
+        cursor.execute(
             "SELECT cities.name "
             "FROM cities "
             "JOIN states ON cities.state_id = states.id "
@@ -27,21 +24,18 @@ if __name__ == '__main__':
             (state_name,)
         )
 
-        
-        rows = cur.fetchall()
+        rows = cursor.fetchall()
 
-        
         if rows:
             city_names = ', '.join(row[0] for row in rows)
             print(city_names)
         else:
             print("No cities found for the state: {}".format(state_name))
 
-    except MySQLdb.Error as e:
+    except mysql.connector.Error as e:
         print("MySQL Error: {}".format(e))
     except Exception as e:
         print("Error: {}".format(e))
     finally:
-       
-        cur.close()
+        cursor.close()
         db.close()
