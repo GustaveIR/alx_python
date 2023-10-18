@@ -37,9 +37,9 @@ if __name__ == '__main__':
         else:
             print("No cities found for the state: {}".format(state_name))
 
-   
+    except MySQLdb.Error as e:
         print("MySQL Error: {}".format(e))
-    
+    except Exception as e:
         print("Error: {}".format(e))
  
        
