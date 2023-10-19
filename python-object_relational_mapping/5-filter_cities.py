@@ -4,6 +4,7 @@ import sys
 
 if __name__ == '__main__':
     try:
+    
         db = MySQLdb.connect(
             host='localhost',
             user=sys.argv[1],
@@ -12,20 +13,24 @@ if __name__ == '__main__':
             port=3306
         )
 
+        
         cur = db.cursor()
 
+        
         state_name = sys.argv[4]
         cur.execute(
             "SELECT cities.name "
             "FROM cities "
             "JOIN states ON cities.state_id = states.id "
             "WHERE states.name = %s "
-            "ORDER BY cities.name",  # Changed to order by city names
+            "ORDER BY cities.id",
             (state_name,)
         )
 
+        
         rows = cur.fetchall()
 
+        
         if rows:
             city_names = ', '.join(row[0] for row in rows)
             print(city_names)
@@ -36,6 +41,7 @@ if __name__ == '__main__':
         print("MySQL Error: {}".format(e))
     except Exception as e:
         print("Error: {}".format(e))
-    finally:
+ 
+       
         cur.close()
         db.close()
