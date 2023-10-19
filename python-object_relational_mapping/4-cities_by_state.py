@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+"""
+Script that lists all cities from the database hbtn_0e_4_usa
+"""
+
 import MySQLdb
 import sys
 
@@ -14,24 +19,18 @@ if __name__ == '__main__':
     # Create a cursor object to interact with the database
     cur = db.cursor()
 
-    # Get the state name from command line argument
-    state_name = sys.argv[4]
-
     # Execute the query to retrieve cities with their corresponding states
-    cur.execute(
-        "SELECT cities.name "
-        "FROM cities JOIN states ON cities.state_id = states.id "
-        "WHERE states.name = %s "
-        "ORDER BY cities.id",
-        (state_name,)
-    )
+    cur.execute("SELECT * FROM table_name WHERE column_name = %s", (user_input,))
+
+    
 
     # Fetch all the rows that match the query
     rows = cur.fetchall()
 
     # Print the results
     for row in rows:
-        print(row[0])
+        print(row)
 
+   
     cur.close()
     db.close()
