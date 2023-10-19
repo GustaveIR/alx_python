@@ -21,13 +21,13 @@ if __name__ == '__main__':
 
         # Execute the SQL query
         cur.execute(
-            "SELECT cities.name "
-            "FROM cities "
-            "JOIN states ON cities.state_id = states.id "
-            "WHERE states.name = %s "
-            "ORDER BY cities.id",
-            (state_name,)
-        )
+    "SELECT GROUP_CONCAT(cities.name SEPARATOR ', ') "
+    "FROM cities "
+    "JOIN states ON cities.state_id = states.id "
+    "WHERE states.name = %s "
+    "ORDER BY cities.id",
+    (state_name,)
+)
 
         # Fetch the results
         rows = cur.fetchall()
@@ -39,11 +39,10 @@ if __name__ == '__main__':
         else:
             print("No cities found for the state: {}".format(state_name))
 
-        # Close cursor and connection
-        cur.close()
-        db.close()
-
     except MySQLdb.Error as e:
         print("MySQL Error: {}".format(e))
     except Exception as e:
         print("Error: {}".format(e))
+ 
+        cur.close()
+        db.close()
