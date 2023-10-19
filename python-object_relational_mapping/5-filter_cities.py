@@ -43,6 +43,6 @@ if __name__ == '__main__':
         print("MySQL Error: {}".format(e))
     except Exception as e:
         print("Error: {}".format(e))
-    finally:
+ 
         cur.close()
         db.close()
