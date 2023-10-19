@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import MySQLdb
-import sys
+import mysql.connector
 
 if __name__ == '__main__':
     try:
