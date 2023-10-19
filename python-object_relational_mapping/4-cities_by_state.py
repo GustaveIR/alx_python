@@ -20,9 +20,11 @@ if __name__ == '__main__':
     cur = db.cursor()
 
     # Execute the query to retrieve cities with their corresponding states
-    cur.execute("SELECT * FROM table_name WHERE column_name = %s", (user_input,))
-
-    
+    cur.execute(
+        "SELECT cities.id, cities.name, states.name "
+        "FROM cities JOIN states ON cities.state_id = states.id "
+        "ORDER BY cities.id"
+    )
 
     # Fetch all the rows that match the query
     rows = cur.fetchall()
@@ -31,6 +33,6 @@ if __name__ == '__main__':
     for row in rows:
         print(row)
 
-   
+    # Close the cursor and database connection
     cur.close()
     db.close()
