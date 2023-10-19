@@ -33,6 +33,6 @@ if __name__ == '__main__':
     for row in rows:
         print(row)
 
-    # Close the cursor and database connection
+   
     cur.close()
     db.close()
