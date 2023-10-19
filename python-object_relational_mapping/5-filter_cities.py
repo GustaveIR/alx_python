@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 import MySQLdb
-import mysql.connector
+import sys
 
 if __name__ == '__main__':
     try:
         # Connect to the MySQL server
-        db = mysql.connector.connect(
+        db = MySQLdb.connect(
             host='localhost',
             user=sys.argv[1],
-            password=sys.argv[2],
-            database=sys.argv[3],
+            passwd=sys.argv[2],
+            db=sys.argv[3],
             port=3306
         )
 
@@ -21,13 +21,13 @@ if __name__ == '__main__':
 
         # Execute the SQL query
         cur.execute(
-            "SELECT GROUP_CONCAT(cities.name SEPARATOR ', ') "
-            "FROM cities "
-            "JOIN states ON cities.state_id = states.id "
-            "WHERE states.name = %s "
-            "ORDER BY cities.id",
-            (state_name,)
-        )
+    "SELECT GROUP_CONCAT(cities.name SEPARATOR ', ') "
+    "FROM cities "
+    "JOIN states ON cities.state_id = states.id "
+    "WHERE states.name = %s "
+    "ORDER BY cities.id",
+    (state_name,)
+)
 
         # Fetch the results
         rows = cur.fetchall()
@@ -39,10 +39,10 @@ if __name__ == '__main__':
         else:
             print("No cities found for the state: {}".format(state_name))
 
-    except mysql.connector.Error as e:
+    except MySQLdb.Error as e:
         print("MySQL Error: {}".format(e))
     except Exception as e:
         print("Error: {}".format(e))
-    finally:
+ 
         cur.close()
         db.close()
