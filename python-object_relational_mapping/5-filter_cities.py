@@ -1,44 +1,60 @@
+#!/usr/bin/python3
 import MySQLdb
 import sys
 
-def fetch_city_info(username, password, database, state):
+"""
+Module Documentation: Provide a brief description of what this module does.
+"""
+
+def get_cities_by_state(state_name):
+    """
+    Function Documentation: Describe what this function does.
+    """
     try:
-        # Connect to MySQL server
-        connection = MySQLdb.connect(
+        # Connect to the MySQL server
+        db = MySQLdb.connect(
             host='localhost',
-            port=3306,
-            user=username,
-            passwd=password,
-            db=database
+            user=sys.argv[1],
+            passwd=sys.argv[2],
+            db=sys.argv[3],
+            port=3306
         )
-        
-        cursor = connection.cursor()
 
-        # Execute the query with parameters to avoid SQL injection
-        query = "SELECT * FROM cities WHERE state = %s ORDER BY id ASC"
-        cursor.execute(query, (state,))
+        # Create a cursor object
+        cur = db.cursor()
 
-        # Fetch all the results
-        results = cursor.fetchall()
+        # Execute the SQL query
+        cur.execute(
+            "SELECT GROUP_CONCAT(cities.name SEPARATOR ', ') "
+            "FROM cities "
+            "JOIN states ON cities.state_id = states.id "
+            "WHERE states.name = %s "
+            "ORDER BY cities.id",
+            (state_name,)
+        )
 
-        # Display the results
-        for row in results:
-            print(row)
+        # Fetch the results
+        rows = cur.fetchall()
 
+        # Print the results
+        if rows:
+            city_names = ', '.join(row[0] for row in rows)
+            print(city_names)
+        else:
+            print(f"No cities found for the state: {state_name}")
+
+    except MySQLdb.Error as e:
+        print(f"MySQL Error: {e}")
     except Exception as e:
         print(f"Error: {e}")
     finally:
-        # Close the connection
-        cursor.close()
-        connection.close()
+        cur.close()
+        db.close()
 
-# Check if all required arguments are provided
-if len(sys.argv) != 5:
-    print("Usage: python script.py <username> <password> <database> <state>")
-    sys.exit(1)
-
-# Retrieve arguments
-username, password, database, state = sys.argv[1:]
-
-# Call the function with the provided arguments
-fetch_city_info(username, password, database, state)
+if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        print("Usage: python script.py <username> <password> <database> <state_name>")
+        sys.exit(1)
+        
+    state_name = sys.argv[4]
+    get_cities_by_state(state_name)
