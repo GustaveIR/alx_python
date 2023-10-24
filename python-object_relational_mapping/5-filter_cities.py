@@ -50,3 +50,11 @@ def get_cities_by_state(state_name):
     finally:
         cur.close()
         db.close()
+
+if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        print("Usage: python script.py <username> <password> <database> <state_name>")
+        sys.exit(1)
+        
+    state_name = sys.argv[4]
+    get_cities_by_state(state_name)
