@@ -1,4 +1,3 @@
-
 import MySQLdb
 import sys
 
@@ -27,6 +26,9 @@ def sort_city_names(city_names):
     sorted_city_names = []
     for state_name, city_names in city_names_by_state.items():
         sorted_city_names += city_names
+
+    # Sort the city names alphabetically
+    sorted_city_names.sort()
 
     return sorted_city_names
 
