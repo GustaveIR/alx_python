@@ -8,7 +8,13 @@ def sort_city_names(city_names):
     # Create a dictionary to store the city names grouped by state
     city_names_by_state = {}
     for city_name in city_names:
-        state_name = city_name.split(",")[1]
+        # Check if the city name contains a comma
+        if "," in city_name:
+            state_name = city_name.split(",")[1]
+        else:
+            state_name = None
+
+        # Add the city name to the dictionary, grouped by state
         if state_name not in city_names_by_state:
             city_names_by_state[state_name] = []
         city_names_by_state[state_name].append(city_name)
