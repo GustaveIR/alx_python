@@ -1,5 +1,28 @@
+
 import MySQLdb
 import sys
+
+def sort_city_names(city_names):
+    """Sorts city names alphabetically, but also groups together city names from the same state."""
+
+    # Create a dictionary to store the city names grouped by state
+    city_names_by_state = {}
+    for city_name in city_names:
+        state_name = city_name.split(",")[1]
+        if state_name not in city_names_by_state:
+            city_names_by_state[state_name] = []
+        city_names_by_state[state_name].append(city_name)
+
+    # Sort the city names in each state alphabetically
+    for state_name, city_names in city_names_by_state.items():
+        city_names.sort()
+
+    # Concatenate the city names from each state into a single list
+    sorted_city_names = []
+    for state_name, city_names in city_names_by_state.items():
+        sorted_city_names += city_names
+
+    return sorted_city_names
 
 def main():
     database_name = sys.argv[3]
@@ -29,7 +52,7 @@ def main():
         city_names = ", ".join(row[0] for row in results)
 
         # Sort the city names alphabetically
-        city_names = sorted(city_names)
+        city_names = sort_city_names(city_names.split(", "))
 
         # Print the city names
         print(", ".join(city_names))
