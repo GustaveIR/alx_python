@@ -2,59 +2,42 @@
 import MySQLdb
 import sys
 
-"""
-Module Documentation: Provide a brief description of what this module does.
-"""
-
-def get_cities_by_state(state_name):
-    """
-    Function Documentation: Describe what this function does.
-    """
-    try:
-        # Connect to the MySQL server
-        db = MySQLdb.connect(
-            host='localhost',
-            user=sys.argv[1],
-            passwd=sys.argv[2],
-            db=sys.argv[3],
-            port=3306
-        )
-
-        # Create a cursor object
-        cur = db.cursor()
-
-        # Execute the SQL query
+def main():
+       database_name = sys.argv[3]
+            username = sys.argv[1],
+            password= sys.argv[2],
+            statename = sys.argv[4],
+       
+       # Connecting to database in the localhost
+       database = MySQLdb.connect( host='localhost', user=username,
+                                   passwd=password, db=database_name,
+                                   port=3306)
+       # create a cursor 
+       cur = database.cursor()
+ 
+       # using a parameterized query
         cur.execute(
-            "SELECT GROUP_CONCAT(cities.name SEPARATOR ', ') "
-            "FROM cities "
+            "SELECT cities.name FROM cities"
             "JOIN states ON cities.state_id = states.id "
-            "WHERE states.name = %s "
-            "ORDER BY cities.id",
-            (state_name,)
-        )
+            "WHERE %s =  states.name"
+            "ORDER BY cities.id ASC",)
 
-        # Fetch the results
-        rows = cur.fetchall()
+        # Execute the query with name searched as parameter 
+        cur.execute(query,(state_name))
 
-        # Print the results
-        if rows:
-            city_names = ', '.join(row[0] for row in rows)
-            print(city_names)
-        else:
-            print(f"No cities found for the state: {state_name}")
+        # obtaining results 
+        results = cur.fetchall()
 
-    except MySQLdb.Error as e:
-        print(f"MySQL Error: {e}")
-    except Exception as e:
-        print(f"Error: {e}")
-    finally:
+        # Extract city names and join them with commas
+        city_names = ", ".join(row[0] for row in results)
+
+        # Display the comma-separeted city names
+        print(city_names)
+       # close cursor
         cur.close()
-        db.close()
+
+       # close database 
+        database.close()
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
-        print("Usage: python script.py <username> <password> <database> <state_name>")
-        sys.exit(1)
-        
-    state_name = sys.argv[4]
-    get_cities_by_state(state_name)
+main()
