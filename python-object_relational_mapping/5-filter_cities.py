@@ -57,11 +57,10 @@ def main():
     if not results:
         print()
     else:
-        # Split the city names at the comma, but only keep the city name
-        city_names = [city_name.split(",")[0] for city_name in results]
+        city_names = ", ".join(row[0] for row in results)
 
         # Sort the city names alphabetically
-        city_names.sort()
+        city_names = sort_city_names(city_names.split(", "))
 
         # Print the city names
         print(", ".join(city_names))
