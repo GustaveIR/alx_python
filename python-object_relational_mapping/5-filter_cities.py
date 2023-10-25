@@ -65,7 +65,7 @@ def main():
     cur.close()
 
     # close database
-    database.close()
+   database.close()
 
 if __name__ == '__main__':
     main()
