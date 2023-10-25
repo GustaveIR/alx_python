@@ -1,90 +1,75 @@
 import MySQLdb
 import sys
 
+def sort_city_names(city_names):
+    """Sorts city names alphabetically, but also groups together city names from the same state."""
 
-def get_cities_by_state(state_name):
-    """Returns a list of all cities in the given state, sorted in ascending order by their ID."""
+    # Create a dictionary to store the city names grouped by state
+    city_names_by_state = {}
+    for city_name in city_names:
+        # Check if the city name contains a comma
+        if "," in city_name:
+            state_name = city_name.split(",")[1]
+        else:
+            state_name = None
 
-    database = MySQLdb.connect(host='localhost', user='mysql_username', passwd='mysql_password', db='hbtn_0e_4_usa', port=3306)
-    cursor = database.cursor()
+        # Add the city name to the dictionary, grouped by state
+        if state_name not in city_names_by_state:
+            city_names_by_state[state_name] = []
+        city_names_by_state[state_name].append(city_name)
 
-    # Use a parameterized query to avoid SQL injection.
-    query = """
-        SELECT cities.name
-        FROM cities
-        JOIN states ON cities.state_id = states.id
-        WHERE states.name = ?
-        ORDER BY cities.id ASC
-    """
+    # Sort the city names in each state alphabetically
+    for state_name, city_names in city_names_by_state.items():
+        city_names.sort()
 
-    cursor.execute(query, (state_name,))
-    results = cursor.fetchall()
+    # Concatenate the city names from each state into a single list
+    sorted_city_names = []
+    for state_name, city_names in city_names_by_state.items():
+        sorted_city_names += city_names
 
-    # Close the cursor and database connection.
-    cursor.close()
-    database.close()
+    # Sort the city names alphabetically
+    sorted_city_names.sort()
 
-    # Return the list of city names.
-    city_names = [row[0] for row in results]
-    return city_names
-
+    return sorted_city_names
 
 def main():
-    # Get the state name from the command line arguments.
-    state_name = sys.argv[4]
+    database_name = sys.argv[3]
+    username = sys.argv[1]
+    password = sys.argv[2]
+    statename = sys.argv[4]
 
-    # Get the list of cities in the given state.
-    city_names = get_cities_by_state(state_name)
+    # Connecting to database in the localhost
+    database = MySQLdb.connect(host='localhost', user=username, passwd=password, db=database_name, port=3306)
 
-    # Print the list of city names, sorted in ascending order.
-    for city_name in city_names:
-        print(city_name)
+    # create a cursor
+    cur = database.cursor()
 
+    # using a parameterized query
+    query = "SELECT cities.name FROM cities JOIN states ON cities.state_id = states.id WHERE %s = states.name ORDER BY cities.id ASC"
 
-if __name__ == '__main__':
-    main()
-import MySQLdb
-import sys
+    # Execute the query with name searched as parameter
+    cur.execute(query, (statename,))
 
+    # obtaining results
+    results = cur.fetchall()
 
-def get_cities_by_state(state_name):
-    """Returns a list of all cities in the given state, sorted in ascending order by their ID."""
+    # If there are no results, print an empty string
+    if not results:
+        print()
+    else:
+        city_names = ", ".join(row[0] for row in results)
 
-    database = MySQLdb.connect(host='localhost', user='mysql_username', passwd='mysql_password', db='hbtn_0e_4_usa', port=3306)
-    cursor = database.cursor()
+        # Sort the city names alphabetically
+        city_names = sort_city_names(city_names.split(", "))
 
-    # Use a parameterized query to avoid SQL injection.
-    query = """
-        SELECT cities.name
-        FROM cities
-        JOIN states ON cities.state_id = states.id
-        WHERE states.name = ?
-        ORDER BY cities.id ASC
-    """
+        # Print the city names
+        print(", ".join(city_names))
 
-    cursor.execute(query, (state_name,))
-    results = cursor.fetchall()
+    # close cursor
+    cur.close()
 
-    # Close the cursor and database connection.
-    cursor.close()
+    # close database
     database.close()
-
-    # Return the list of city names.
-    city_names = [row[0] for row in results]
-    return city_names
-
-
-def main():
-    # Get the state name from the command line arguments.
-    state_name = sys.argv[4]
-
-    # Get the list of cities in the given state.
-    city_names = get_cities_by_state(state_name)
-
-    # Print the list of city names, sorted in ascending order.
-    for city_name in city_names:
-        print(city_name)
-
 
 if __name__ == '__main__':
     main()
