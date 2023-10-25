@@ -2,35 +2,31 @@ import MySQLdb
 import sys
 
 def sort_city_names(city_names):
-    """Sorts city names alphabetically, but also groups together city names from the same state."""
+  """Sorts city names alphabetically, but also groups together city names from the same state."""
 
-    # Create a dictionary to store the city names grouped by state
-    city_names_by_state = {}
-    for city_name in city_names:
-        # Check if the city name contains a comma
-        if "," in city_name:
-            state_name = city_name.split(",")[1]
-        else:
-            state_name = None
+  # Create a dictionary to store the city names grouped by state
+  city_names_by_state = {}
+  for city_name in city_names:
+    # Check if the city name contains a comma
+    if "," in city_name:
+      state_name = city_name.split(",")[1]
+    else:
+      state_name = None
 
-        # Add the city name to the dictionary, grouped by state
-        if state_name not in city_names_by_state:
-            city_names_by_state[state_name] = []
-        city_names_by_state[state_name].append(city_name)
+    # Add the city name to the dictionary, grouped by state
+    if state_name not in city_names_by_state:
+      city_names_by_state[state_name] = []
+    city_names_by_state[state_name].append(city_name)
 
-    # Sort the city names in each state alphabetically
-    for state_name, city_names in city_names_by_state.items():
-        city_names.sort()
+  # Concatenate the city names from each state into a single list
+  sorted_city_names = []
+  for state_name, city_names in city_names_by_state.items():
+    sorted_city_names += city_names
 
-    # Concatenate the city names from each state into a single list
-    sorted_city_names = []
-    for state_name, city_names in city_names_by_state.items():
-        sorted_city_names += city_names
+  # Sort the city names alphabetically
+  sorted_city_names.sort()
 
-    # Sort the city names alphabetically
-    sorted_city_names.sort()
-
-    return sorted_city_names
+  return sorted_city_names
 
 def main():
     database_name = sys.argv[3]
