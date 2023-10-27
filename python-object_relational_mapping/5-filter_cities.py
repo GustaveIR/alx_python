@@ -22,6 +22,7 @@ def sort_city_names(city_names):
     
     return sorted_city_names
 
+
 def main():
     database_name = sys.argv[3]
     username = sys.argv[1]
