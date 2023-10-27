@@ -20,7 +20,7 @@ def sort_city_names(city_names):
         city_names.sort()  # Sort city names within each state group
         sorted_city_names += city_names
     
-    return sorted(sorted_city_names, key=lambda x: (x.split(",")[1].strip(), x.split(",")[0].strip()))
+    return sorted_city_names
 
 
 def main():
