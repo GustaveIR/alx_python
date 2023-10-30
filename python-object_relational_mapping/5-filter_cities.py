@@ -29,14 +29,23 @@ def main():
     password = sys.argv[2]
     statename = sys.argv[4]
 
-    conn = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="root", db="my_db", charset="utf8")
-cur = conn.cursor()
-cur.execute("SELECT * FROM states ORDER BY id ASC") # HERE I have to know SQL to grab all states in my database
-query_rows = cur.fetchall()
-for row in query_rows:
-    print(row)
-cur.close()
-conn.close()
+    database = MySQLdb.connect(host='localhost', user=username, passwd=password, db=database_name, port=3306)
+    cur = database.cursor()
+
+    query = "SELECT cities.name FROM cities JOIN states ON cities.state_id = states.id WHERE %s = states.name ORDER BY cities.id ASC"
+
+    cur.execute(query, (statename,))
+    results = cur.fetchall()
+
+    if not results:
+        print()
+    else:
+        city_names = [row[0] for row in results]
+        city_names = sort_city_names(city_names)
+        print(", ".join(city_names))
+
+    cur.close()
+    database.close()
 
 if __name__ == '__main__':
     main()
