@@ -24,9 +24,9 @@ def sort_city_names(city_names):
 
 
 def main():
-    database_name = sys.argv[3]
     username = sys.argv[1]
     password = sys.argv[2]
+    database_name = sys.argv[3]
     statename = sys.argv[4]
 
     database = MySQLdb.connect(host='localhost', user=username, passwd=password, db=database_name, port=3306)
