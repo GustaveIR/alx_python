@@ -37,13 +37,7 @@ def main():
     cur.execute(query, (statename,))
     results = cur.fetchall()
 
-    if not results:
-        print()
-    else:
-        city_names = [row[0] for row in results]
-        city_names = sort_city_names(city_names)
-        print(", ".join(city_names))
-
+    
     cur.close()
     database.close()
 
