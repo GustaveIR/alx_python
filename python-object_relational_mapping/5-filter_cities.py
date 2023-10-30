@@ -32,7 +32,14 @@ def main():
     database = MySQLdb.connect(host='localhost', user=username, passwd=password, db=database_name, port=3306)
     cur = database.cursor()
 
-    statename = "SELECT cities.name FROM cities JOIN states ON cities.state_id = states.id WHERE %s = states.name ORDER BY cities.id ASC"
+   query = """
+    SELECT cities.name 
+    FROM cities 
+    JOIN states ON cities.state_id = states.id 
+    WHERE %s = states.name 
+    ORDER BY cities.name ASC
+"""
+
 
     cur.execute(query, (statename,))
     results = cur.fetchall()
