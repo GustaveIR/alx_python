@@ -16,7 +16,7 @@ def sort_city_names(city_names):
 
     sorted_city_names = []
     for state_name, city_names in city_names_by_state.items():
-        city_names.sort()  # Sort city names within each state group
+        city_names.sort(key=lambda x: x.lower())  # Sort city names case-insensitively within each state group
         sorted_city_names.extend(city_names)  # Use extend instead of +=
     
     return sorted_city_names
