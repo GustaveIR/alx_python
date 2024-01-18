@@ -1,6 +1,11 @@
-CREATE DATABASE IF NOT EXISTS hbtn_0e_6_usa
-USE hbtn_0e_6_usa
-SHOW CREATE TABLE states;
-if __name__ == "__main__":
-    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.format(sys.argv[1], sys.argv[2], sys.argv[3]), pool_pre_ping=True)
-    Base.metadata.create_all(engine)
+-- Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS hbtn_0e_6_usa;
+
+-- Use the database
+USE hbtn_0e_6_usa;
+
+-- Create the 'states' table
+CREATE TABLE IF NOT EXISTS states (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL
+);
