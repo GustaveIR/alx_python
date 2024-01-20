@@ -1,24 +1,19 @@
-#!/usr/bin/python3
-"""Start link class to table in database
-"""
-import sys
-from model_state import Base, State
-from sqlalchemy import create_engine
+# model_state.py
 
-def main():
-    if len(sys.argv) != 4:
-        print("Usage: {} <username> <password> <database>".format(sys.argv[0]))
-        sys.exit(1)
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 
-    username, password, database = sys.argv[1], sys.argv[2], sys.argv[3]
+Base = declarative_base()
 
-    try:
-        engine = create_engine(f'mysql+mysqldb://{username}:{password}@localhost/{database}', pool_pre_ping=True)
-        Base.metadata.create_all(engine)
-        print("Tables created successfully.")
-    except Exception as e:
-        print(f"An error occurred while creating tables: {e}")
-        sys.exit(1)
+class State(Base):
+    """
+    State class representing a state in the database.
 
-if __name__ == "__main__":
-    main()
+    Attributes:
+        id (int): Auto-generated unique integer, primary key.
+        name (str): String with a maximum of 128 characters, cannot be null.
+    """
+    __tablename__ = 'states'
+
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, doc="Auto-generated unique integer, primary key.")
+    name = Column(String(128), nullable=False, doc="String with a maximum of 128 characters, cannot be null.")
