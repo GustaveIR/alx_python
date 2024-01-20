@@ -17,7 +17,7 @@ def main():
         Base.metadata.create_all(engine)
         print("Tables created successfully.")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while creating tables: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
