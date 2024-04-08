@@ -36,7 +36,7 @@ def fetch_employee_data(employee_id):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+        print("Usage: python3 main.py <employee_id>")
         sys.exit(1)
 
     employee_id = sys.argv[1]
