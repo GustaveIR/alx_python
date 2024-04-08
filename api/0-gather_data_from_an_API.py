@@ -2,6 +2,15 @@ import requests
 import sys
 
 def fetch_employee_data(employee_id):
+    """
+    Fetch employee data from the given employee ID and display their TODO list progress.
+
+    Args:
+        employee_id (int): The ID of the employee to fetch data for.
+
+    Returns:
+        None
+    """
     try:
         # Fetch employee details
         employee_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}")
@@ -15,9 +24,10 @@ def fetch_employee_data(employee_id):
         # Calculate number of completed tasks
         completed_tasks = [task for task in todos_data if task['completed']]
         num_completed_tasks = len(completed_tasks)
+        total_tasks = len(todos_data)
 
         # Display employee TODO list progress
-        print(f"Employee {employee_name} is done with tasks ({num_completed_tasks}/{len(todos_data)}):")
+        print(f"Employee {employee_name} is done with tasks ({num_completed_tasks}/{total_tasks}):")
         for task in completed_tasks:
             print(f"\t{task['title']}")
 
