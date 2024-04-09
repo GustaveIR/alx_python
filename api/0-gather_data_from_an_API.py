@@ -1,7 +1,12 @@
+"""
+0-gather_data_from_an_API.py
+
+Script to fetch employee data and display TODO list progress from a REST API.
+"""
+
 import requests
 import sys
 
-# Define API URLs
 USERS_URL = "https://jsonplaceholder.typicode.com/users"
 TODOS_URL = "https://jsonplaceholder.typicode.com/todos"
 
@@ -40,9 +45,9 @@ def fetch_employee_data(employee_id):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
 
-def main():
+if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 main.py <employee_id>")
+        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
 
     try:
@@ -52,6 +57,3 @@ def main():
         sys.exit(1)
 
     fetch_employee_data(employee_id)
-
-if __name__ == "__main__":
-    main()
