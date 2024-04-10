@@ -42,11 +42,10 @@ if __name__ == "__main__":
         sys.exit(1)
 
     employee_id = sys.argv[1]
-try:
-    employee_id = int(employee_id)
-except ValueError:
-    print("Employee ID must be an integer.")
-    sys.exit(1)
-
+    try:
+        employee_id = int(employee_id)
+    except ValueError:
+        print("Employee ID must be an integer.")
+        sys.exit(1)
 
     fetch_employee_data(employee_id)
