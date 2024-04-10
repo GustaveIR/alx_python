@@ -1,9 +1,3 @@
-"""
-0-gather_data_from_an_API.py
-
-Script to fetch employee data and display TODO list progress from a REST API.
-"""
-
 import requests
 import sys
 
