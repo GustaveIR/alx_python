@@ -26,16 +26,11 @@ def fetch_employee_data(employee_id):
         # Calculate number of completed tasks
         completed_tasks = [task for task in todos_data if task['completed']]
         num_completed_tasks = len(completed_tasks)
-
-        # Display employee name
-        print(f"Employee Name: {employee_name}")
-
-        # Display total number of tasks
-        print(f"To Do Count: {len(todos_data)}")
+        total_tasks = len(todos_data)
 
         # Display employee TODO list progress
-        print(f"First line formatting: Employee {employee_name} is done with tasks ({num_completed_tasks}/{len(todos_data)}):")
-        for task in todos_data:
+        print(f"Employee {employee_name} is done with tasks ({num_completed_tasks}/{total_tasks}):")
+        for task in completed_tasks:
             print(f"\t{task['title']}")
 
     except requests.exceptions.RequestException as e:
