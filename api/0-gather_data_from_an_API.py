@@ -1,51 +1,64 @@
 import requests
 import sys
 
-def fetch_employee_data(employee_id):
-    """
-    Fetch employee data from the given employee ID and display their TODO list progress.
+USERS_URL = "https://jsonplaceholder.typicode.com/users"
+TODOS_URL = "https://jsonplaceholder.typicode.com/todos"
 
-    Args:
-        employee_id (int): The ID of the employee to fetch data for.
+def check_first_line_formatting(user_id):
+    """ Check student output formatting of the first line """
 
-    Returns:
-        None
-    """
     try:
-        # Fetch employee details
-        employee_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}")
-        employee_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
-        employee_data = employee_response.json()
-        employee_name = employee_data.get('name')
+        # Fetch user's todos
+        todos_response = requests.get(TODOS_URL).json()
+        
+        # Count total number of tasks and completed tasks for the user
+        todos_count = sum(1 for todo in todos_response if todo['userId'] == user_id)
+        todos_done = sum(1 for todo in todos_response if todo['userId'] == user_id and todo['completed'])
 
-        # Fetch employee TODO list
-        todos_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
-        todos_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
-        todos_data = todos_response.json()
+        # Fetch user details
+        user_response = requests.get(USERS_URL).json()
+        user_name = next((user['name'] for user in user_response if user['id'] == user_id), None)
+        
+        if user_name is None:
+            raise ValueError("Invalid user ID")
 
-        # Calculate number of completed tasks
-        completed_tasks = [task for task in todos_data if task['completed']]
-        num_completed_tasks = len(completed_tasks)
-        total_tasks = len(todos_data)
+        # Read first line from student's output
+        with open('student_output', 'r') as f:
+            first_line = f.readline().strip()
 
-        # Display employee TODO list progress
-        print(f"Employee {employee_name} is done with tasks ({num_completed_tasks}/{total_tasks}):")
-        for task in completed_tasks:
-            print(f"\t{task['title']}")
+        # Compare with expected first line format
+        expected_first_line = f"Employee {user_name} is done with tasks({todos_done}/{todos_count}):"
+        if first_line == expected_first_line:
+            print("First line formatting: OK")
+        else:
+            print("First line formatting: Incorrect")
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
+    except ValueError as ve:
+        print(f"Error: {ve}")
+
+def check_task_formatting(user_id):
+    """ Check student output formatting of each task """
+
+    try:
+        # Read student output file
+        with open('student_output', 'r') as f:
+            next(f)  # Skip the first line
+            for line_number, line in enumerate(f, start=1):
+                if line.startswith('\t') and line[1:3] == '  ' and line.endswith('\n'):
+                    print(f"Task {line_number} Formatting: OK")
+                else:
+                    print(f"Task {line_number} Formatting: Incorrect")
+    except FileNotFoundError:
+        print("Error: student_output file not found")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 main.py <employee_id>")
+        print("Usage: python3 script.py <user_id>")
         sys.exit(1)
 
-    employee_id = sys.argv[1]
-    try:
-        employee_id = int(employee_id)
-    except ValueError:
-        print("Employee ID must be an integer.")
-        sys.exit(1)
+    user_id = int(sys.argv[1])
 
-    fetch_employee_data(employee_id)
+    check_first_line_formatting(user_id)
+    check_task_formatting(user_id)
