@@ -29,9 +29,9 @@ def fetch_employee_data(employee_id):
         total_tasks = len(todos_data)
 
         # Display employee TODO list progress
-        print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
-        for task in completed_tasks:
-            print(f"\t{task['title']}")  # Format tasks with 1 tabulation and 1 space
+        print(f"Employee {employee_name} is done with tasks ({num_completed_tasks}/{total_tasks}):")
+        for index, task in enumerate(completed_tasks, start=1):
+            print(f"\t{task['title']}")  # Ensure tasks are formatted with 1 tabulation and 1 space
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
