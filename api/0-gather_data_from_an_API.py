@@ -1,7 +1,7 @@
 import requests
 import sys
 
-def fetch_employee_data(employee_id):
+def fetch_employee_data(employee_id: int) -> None:
     """
     Fetch employee data from the given employee ID and display their TODO list progress.
 
@@ -29,7 +29,7 @@ def fetch_employee_data(employee_id):
         total_tasks = len(todos_data)
 
         # Display employee TODO list progress
-        print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
+        print(f"Employee {employee_name} is done with tasks ({num_completed_tasks}/{total_tasks}):")
         for task in completed_tasks:
             print(f"\t{task['title']}")  # Format tasks with 1 tabulation and 1 space
 
@@ -41,9 +41,9 @@ if __name__ == "__main__":
         print("Usage: python3 main.py <employee_id>")
         sys.exit(1)
 
-    employee_id = sys.argv[1]
+    employee_id_str = sys.argv[1]  # Assign the command-line argument to a variable of type str
     try:
-        employee_id = int(employee_id)
+        employee_id = int(employee_id_str)  # Convert the string to an integer
     except ValueError:
         print("Employee ID must be an integer.")
         sys.exit(1)
