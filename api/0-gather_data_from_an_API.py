@@ -1,8 +1,5 @@
-import sys
 import requests
-
-USERS_URL = "https://jsonplaceholder.typicode.com/users"
-TODOS_URL = "https://jsonplaceholder.typicode.com/todos"
+import sys
 
 def fetch_employee_data(employee_id):
     """
@@ -16,14 +13,14 @@ def fetch_employee_data(employee_id):
     """
     try:
         # Fetch employee details
-        employee_response = requests.get(f"{USERS_URL}/{employee_id}")
-        employee_response.raise_for_status()
+        employee_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}")
+        employee_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
         employee_data = employee_response.json()
         employee_name = employee_data.get('name')
 
         # Fetch employee TODO list
-        todos_response = requests.get(f"{TODOS_URL}?userId={employee_id}")
-        todos_response.raise_for_status()
+        todos_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
+        todos_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
         todos_data = todos_response.json()
 
         # Calculate number of completed tasks
@@ -41,11 +38,12 @@ def fetch_employee_data(employee_id):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+        print("Usage: python3 main.py <employee_id>")
         sys.exit(1)
 
+    employee_id = sys.argv[1]
     try:
-        employee_id = int(sys.argv[1])
+        employee_id = int(employee_id)
     except ValueError:
         print("Employee ID must be an integer.")
         sys.exit(1)
