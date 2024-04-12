@@ -50,3 +50,24 @@ if __name__ == "__main__":
         sys.exit(1)
 
     fetch_employee_data(employee_id)
+
+class Resource:
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter
+    def name(self, value: str) -> None:
+        if not isinstance(value, str):
+            raise TypeError("Name must be a string")
+        self._name = value
+
+r = Resource('A')
+
+r.name = 'B'  # OK
+
+# This will raise a TypeError because 5 is not a string
+r.name = 5
