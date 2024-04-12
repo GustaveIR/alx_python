@@ -13,13 +13,13 @@ def fetch_employee_data(employee_id):
     """
     try:
         # Fetch employee details
-        employee_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{1}")
+        employee_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}")
         employee_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
         employee_data = employee_response.json()
         employee_name = employee_data.get('name')
 
         # Fetch employee TODO list
-        todos_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{1}/todos")
+        todos_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
         todos_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
         todos_data = todos_response.json()
 
