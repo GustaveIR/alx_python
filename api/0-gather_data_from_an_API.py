@@ -1,52 +1,39 @@
+#!/usr/bin/python3
+"""
+Checks student output for returning info from REST API
+"""
+
 import requests
 import sys
+import os
 
-def fetch_employee_data(employee_id):
-    """
-    Fetch employee data from the given employee ID and display their TODO list progress.
+users_url = "https://jsonplaceholder.typicode.com/users"
+todos_url = "https://jsonplaceholder.typicode.com/todos"
 
-    Args:
-        employee_id (int): The ID of the employee to fetch data for.
 
-    Returns:
-        None
-    """
-    try:
-        # Fetch employee details
-        employee_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}")
-        employee_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
-        employee_data = employee_response.json()
-        employee_name = employee_data.get('name')
+def check_tasks(id):
+    """ Fetch user name, number of tasks """
 
-        # Fetch employee TODO list
-        todos_response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
-        todos_response.raise_for_status()  # Raise an exception for 4XX or 5XX status codes
-        todos_data = todos_response.json()
+    resp = requests.get(todos_url).json()
 
-        # Calculate number of completed tasks
-        completed_tasks = [task for task in todos_data if task['completed']]
-        num_completed_tasks = len(completed_tasks)
-        total_tasks = len(todos_data)
+    filename = 'student_output'
+    count = 0
+    if os.path.exists(filename):
+        with open(filename, 'r') as f:
+            next(f)
+            for line in f:
+                count += 1
+                if line.startswith('\t ') and line.endswith('\n'):
+                    print("Task {} Formatting: OK".format(count))
+                else:
+                    print("Task {} Formatting: Incorrect".format(count))
+    else:
+        print(f"File {filename} not found!")
 
-        # Display employee TODO list progress
-        print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
-        for task in completed_tasks:
-            print(f"\t{task['title']}")  # Format tasks with 1 tabulation
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        sys.exit(1)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 main.py <employee_id>")
+        print("Usage: python3 script_name.py <employee_id>")
         sys.exit(1)
 
-    employee_id = sys.argv[1]
-    try:
-        employee_id = int(employee_id)
-    except ValueError:
-        print("Employee ID must be an integer.")
-        sys.exit(1)
-
-    fetch_employee_data(employee_id)
+    check_tasks(int(sys.argv[1]))
